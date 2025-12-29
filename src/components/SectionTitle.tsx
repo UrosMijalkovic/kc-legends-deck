@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface SectionTitleProps {
   subtitle?: string;
@@ -9,6 +10,8 @@ interface SectionTitleProps {
 }
 
 export function SectionTitle({ subtitle, title, align = "left" }: SectionTitleProps) {
+  const { language } = useLanguage();
+
   return (
     <div className={`mb-12 ${align === "center" ? "text-center" : ""}`}>
       {subtitle && (
@@ -17,7 +20,7 @@ export function SectionTitle({ subtitle, title, align = "left" }: SectionTitlePr
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="font-rajdhani text-[#00d4ff] text-sm md:text-base uppercase tracking-[0.3em] mb-3"
+          className={`text-[#00d4ff] text-sm md:text-base uppercase tracking-[0.3em] mb-3 ${language === 'ja' ? 'font-noto-jp' : 'font-rajdhani'}`}
         >
           {subtitle}
         </motion.p>
@@ -27,7 +30,8 @@ export function SectionTitle({ subtitle, title, align = "left" }: SectionTitlePr
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="font-orbitron text-3xl md:text-5xl font-extrabold uppercase tracking-wider text-white relative inline-block"
+        className="font-orbitron text-3xl md:text-5xl font-extrabold uppercase tracking-wider text-white relative inline-block title-glow glitch cursor-pointer"
+        data-text={title}
       >
         {title}
         <motion.div

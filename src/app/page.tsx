@@ -11,6 +11,7 @@ import { SciFiBackground } from "@/components/SciFiBackground";
 import { StatCard, BigStatCard } from "@/components/StatCard";
 import { SectionTitle } from "@/components/SectionTitle";
 import { useRef, useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Dynamic import for 3D components (no SSR)
 const ParticleField = dynamic(
@@ -19,6 +20,7 @@ const ParticleField = dynamic(
 );
 
 export default function Home() {
+  const { t, language } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -29,7 +31,6 @@ export default function Home() {
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
 
-  const [videoPlaying, setVideoPlaying] = useState(false);
 
   return (
     <main className="relative">
@@ -84,18 +85,18 @@ export default function Home() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="font-rajdhani text-[#00d4ff] text-lg sm:text-xl md:text-2xl uppercase tracking-[0.3em] md:tracking-[0.5em] mb-6"
+            className={`text-[#00d4ff] text-lg sm:text-xl md:text-2xl uppercase tracking-[0.3em] md:tracking-[0.5em] mb-6 ${language === 'ja' ? 'font-noto-jp' : 'font-rajdhani'}`}
           >
-            Karate Combat
+            {t.hero.tagline}
           </motion.p>
 
           <motion.p
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="font-exo2 text-lg sm:text-xl md:text-3xl text-white/90 mb-10 font-light leading-relaxed"
+            className={`text-lg sm:text-xl md:text-3xl text-white/90 mb-10 font-light leading-relaxed ${language === 'ja' ? 'font-noto-jp' : 'font-exo2'}`}
           >
-            Become the Main Sponsor of the Next Gaming Phenomenon
+            {t.hero.subtitle}
           </motion.p>
 
           <motion.div
@@ -106,18 +107,18 @@ export default function Home() {
           >
             <motion.a
               href="#sponsorship"
-              className="px-8 py-4 bg-[#00d4ff] text-[#030810] font-rajdhani font-bold text-lg uppercase tracking-wider btn-shine text-center"
+              className={`px-8 py-4 bg-[#00d4ff] text-[#030810] font-bold text-lg uppercase tracking-wider btn-shine text-center ${language === 'ja' ? 'font-noto-jp' : 'font-rajdhani'}`}
               whileHover={{
                 boxShadow: "0 0 40px rgba(0, 212, 255, 0.5)",
                 scale: 1.02,
               }}
               whileTap={{ scale: 0.98 }}
             >
-              Explore Opportunity
+              {t.hero.cta}
             </motion.a>
             <motion.a
               href="#demo"
-              className="px-8 py-4 border-2 border-[#00d4ff] text-[#00d4ff] font-rajdhani font-bold text-lg uppercase tracking-wider btn-shine text-center"
+              className={`px-8 py-4 border-2 border-[#00d4ff] text-[#00d4ff] font-bold text-lg uppercase tracking-wider btn-shine text-center ${language === 'ja' ? 'font-noto-jp' : 'font-rajdhani'}`}
               whileHover={{
                 backgroundColor: "rgba(0, 212, 255, 0.1)",
                 boxShadow: "0 0 30px rgba(0, 212, 255, 0.3)",
@@ -125,7 +126,7 @@ export default function Home() {
               }}
               whileTap={{ scale: 0.98 }}
             >
-              Watch Demo
+              {language === 'ja' ? 'デモを見る' : 'Watch Demo'}
             </motion.a>
           </motion.div>
         </div>
@@ -137,8 +138,8 @@ export default function Home() {
           transition={{ delay: 1.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="font-rajdhani text-[#00d4ff] text-xs uppercase tracking-widest">
-            Scroll
+          <span className={`text-[#00d4ff] text-xs uppercase tracking-widest ${language === 'ja' ? 'font-noto-jp' : 'font-rajdhani'}`}>
+            {t.hero.scroll}
           </span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
@@ -151,7 +152,7 @@ export default function Home() {
       </section>
 
       {/* Overview / Highlights Section */}
-      <section className="relative py-16 md:py-20 bg-gradient-to-b from-[#030810] to-[#0a1628]">
+      <section className="relative py-16 md:py-20 bg-gradient-to-b from-[#030810]/90 to-[#0a1628]/90">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00d4ff]/50 to-transparent" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -164,7 +165,10 @@ export default function Home() {
             <p className="font-rajdhani text-[#00d4ff] text-sm uppercase tracking-[0.3em] mb-3">
               The Opportunity at a Glance
             </p>
-            <h2 className="font-orbitron text-2xl md:text-4xl font-bold text-white">
+            <h2
+              className="font-orbitron text-2xl md:text-4xl font-bold text-white title-glow glitch cursor-pointer"
+              data-text="Why This, Why Now?"
+            >
               Why This, Why Now?
             </h2>
           </motion.div>
@@ -178,7 +182,7 @@ export default function Home() {
               transition={{ delay: 0.1 }}
               className="bg-[#0a1628]/80 border border-[#00d4ff]/20 p-6 text-center hover:border-[#00d4ff]/50 transition-colors"
             >
-              <div className="font-orbitron text-3xl md:text-4xl font-bold text-[#00d4ff] mb-2">$2.5M</div>
+              <div className="font-orbitron text-3xl md:text-4xl font-bold text-[#00d4ff] mb-2 glow-cyan">$2.5M</div>
               <div className="font-rajdhani text-xs md:text-sm text-gray-400 uppercase tracking-wider">Media Value</div>
             </motion.div>
 
@@ -189,7 +193,7 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="bg-[#0a1628]/80 border border-[#00d4ff]/20 p-6 text-center hover:border-[#00d4ff]/50 transition-colors"
             >
-              <div className="font-orbitron text-3xl md:text-4xl font-bold text-[#66ff00] mb-2">500M</div>
+              <div className="font-orbitron text-3xl md:text-4xl font-bold text-[#66ff00] mb-2 glow-green">500M</div>
               <div className="font-rajdhani text-xs md:text-sm text-gray-400 uppercase tracking-wider">Annual Impressions</div>
             </motion.div>
 
@@ -200,7 +204,7 @@ export default function Home() {
               transition={{ delay: 0.3 }}
               className="bg-[#0a1628]/80 border border-[#00d4ff]/20 p-6 text-center hover:border-[#00d4ff]/50 transition-colors"
             >
-              <div className="font-orbitron text-3xl md:text-4xl font-bold text-[#ffcc00] mb-2">1B+</div>
+              <div className="font-orbitron text-3xl md:text-4xl font-bold text-[#ffcc00] mb-2 glow-yellow">1B+</div>
               <div className="font-rajdhani text-xs md:text-sm text-gray-400 uppercase tracking-wider">Karate Combat Reach</div>
             </motion.div>
 
@@ -211,7 +215,7 @@ export default function Home() {
               transition={{ delay: 0.4 }}
               className="bg-[#0a1628]/80 border border-[#00d4ff]/20 p-6 text-center hover:border-[#00d4ff]/50 transition-colors"
             >
-              <div className="font-orbitron text-3xl md:text-4xl font-bold text-[#ff3366] mb-2">1.6yr</div>
+              <div className="font-orbitron text-3xl md:text-4xl font-bold text-[#ff3366] mb-2 glow-red">1.6yr</div>
               <div className="font-rajdhani text-xs md:text-sm text-gray-400 uppercase tracking-wider">In Development</div>
             </motion.div>
           </div>
@@ -235,7 +239,7 @@ export default function Home() {
               <div className="w-12 h-12 rounded-full bg-[#00d4ff]/10 border border-[#00d4ff]/30 flex items-center justify-center mb-3">
                 <span className="text-xl">📝</span>
               </div>
-              <p className="font-rajdhani text-white font-semibold">IP Rights Secured</p>
+              <p className="font-rajdhani text-white font-semibold">IP & Marketing Rights Secured</p>
               <p className="text-gray-500 text-sm">Official Karate Combat partnership</p>
             </div>
             <div className="flex flex-col items-center">
@@ -250,9 +254,9 @@ export default function Home() {
       </section>
 
       {/* Origin Section */}
-      <section id="origin" className="relative py-24 md:py-32 bg-gradient-to-b from-[#030810] via-[#0a1628] to-[#0d2238]">
+      <section id="origin" className="relative py-24 md:py-32 bg-gradient-to-b from-[#030810]/90 via-[#0a1628]/90 to-[#0d2238]/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle subtitle="The Journey" title="How It Started" />
+          <SectionTitle subtitle={t.origin.subtitle} title={t.origin.title} />
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -315,15 +319,51 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Stats */}
-            <div className="lg:col-span-3 grid grid-cols-3 gap-3 md:gap-4 lg:gap-6 self-center">
-              <StatCard value={1000000} suffix="" label="Players" delay={0.1} />
-              <StatCard value={100000} suffix="+" label="Die-Hard Gamers" delay={0.2} />
-              <StatCard value={0} suffix="" prefix="$" label="Marketing Budget" highlight delay={0.3} staticValue="$0" />
+            {/* Right Column - Stats, Phone Mockups, Emotion Photos */}
+            <div className="lg:col-span-3 space-y-8">
+              {/* Stats Row */}
+              <div className="grid grid-cols-3 gap-3 md:gap-4 lg:gap-6">
+                <StatCard value={1000000} suffix="" label="Players" delay={0.1} />
+                <StatCard value={100000} suffix="+" label="Die-Hard Gamers" delay={0.2} />
+                <StatCard value={0} suffix="" prefix="$" label="Marketing Budget" highlight delay={0.3} staticValue="$0" />
+              </div>
+
+              {/* Phone Mockups Row */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <p className="font-rajdhani text-[#00d4ff] text-xs uppercase tracking-[0.2em] mb-3 text-center">
+                  First Karate Do Game Screenshots (2015-2019)
+                </p>
+                <div className="grid grid-cols-3 gap-3">
+                  {[1, 2, 3].map((num, index) => (
+                    <motion.div
+                      key={`mockup-${num}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.1 * index }}
+                      className="relative aspect-[9/16] border border-[#00d4ff]/20 rounded-lg overflow-hidden group hover:border-[#00d4ff]/50 transition-colors"
+                    >
+                      <Image
+                        src={`/kd-old/${num}.png`}
+                        alt={`Phone mockup ${num}`}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#030810]/40 to-transparent" />
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
             </div>
           </div>
 
-          {/* Previous Game Success Gallery */}
+          {/* Community Love - Featured Image */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -332,47 +372,51 @@ export default function Home() {
           >
             <div className="text-center mb-8">
               <p className="font-rajdhani text-[#00d4ff] text-sm uppercase tracking-[0.3em] mb-2">
-                Karate Do Legacy
+                Community Love
               </p>
               <h3 className="font-orbitron text-xl md:text-2xl font-bold text-white">
-                Proven Track Record
+                Players Around The World
               </h3>
             </div>
 
-            {/* Scrolling Gallery */}
-            <div className="relative overflow-hidden">
-              <div className="flex gap-4 animate-scroll">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5].map((num, index) => (
-                  <motion.div
-                    key={`kd-${index}`}
-                    className="flex-shrink-0 relative w-64 md:w-80 aspect-[16/9] border border-[#00d4ff]/20 overflow-hidden group"
-                    whileHover={{ scale: 1.02, borderColor: "rgba(0,212,255,0.5)" }}
-                  >
-                    <Image
-                      src={`/kd-old/${num > 10 ? num - 10 : num}.png`}
-                      alt={`Karate Do Screenshot ${num}`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030810]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </motion.div>
-                ))}
+            {/* Featured Community Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative max-w-4xl mx-auto"
+            >
+              <div className="relative aspect-video border-2 border-[#00d4ff]/30 rounded-lg overflow-hidden group">
+                <Image
+                  src="/kd-old/6.png"
+                  alt="Community Love"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#030810]/70 via-transparent to-[#030810]/30" />
+
+                {/* Corner accents */}
+                <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-[#00d4ff]/50" />
+                <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-[#00d4ff]/50" />
+                <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-[#00d4ff]/50" />
+                <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-[#00d4ff]/50" />
               </div>
-            </div>
+            </motion.div>
 
             <p className="text-center text-gray-400 mt-6 text-sm">
-              Screenshots from Karate Do — 1M+ downloads, #1 in Sports category
+              Real players sharing their Karate Do moments
             </p>
           </motion.div>
+
         </div>
       </section>
 
       {/* Status Section */}
-      <section id="status" className="relative py-24 md:py-32 bg-[#0d2238]">
+      <section id="status" className="relative py-24 md:py-32 bg-[#0d2238]/90">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[rgba(0,212,255,0.3)] to-transparent" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle subtitle="Current State" title="How It's Going" />
+          <SectionTitle subtitle={t.status.subtitle} title={t.status.title} />
 
           <div className="grid md:grid-cols-3 gap-6 mt-12">
             {/* IP Rights Card */}
@@ -437,11 +481,202 @@ export default function Home() {
               </p>
             </motion.div>
           </div>
+
+          {/* Game Demo Video */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16"
+          >
+            <div className="text-center mb-8">
+              <p className="font-rajdhani text-[#00d4ff] text-sm uppercase tracking-[0.3em] mb-2">
+                See It In Action
+              </p>
+              <h3 className="font-orbitron text-xl md:text-2xl font-bold text-white">
+                Game Demo
+              </h3>
+            </div>
+
+            <div className="relative max-w-5xl mx-auto">
+              <div className="relative p-1 bg-gradient-to-br from-[#00d4ff] to-[rgba(0,212,255,0.3)] video-glow">
+                <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#00d4ff] -translate-x-2 -translate-y-2" />
+                <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#00d4ff] translate-x-2 translate-y-2" />
+
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controls
+                  poster="/images/video-thumbnail.jpg"
+                  className="w-full bg-[#030810]"
+                >
+                  <source src="/gameplay-compressed.mp4#t=30" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+
+            <p className="text-center text-gray-400 mt-4 text-sm">
+              Click to unmute
+            </p>
+
+            <div className="flex justify-center mt-6">
+              <motion.span
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="inline-block px-6 py-2 bg-[#66ff00] text-[#030810] font-rajdhani font-bold uppercase tracking-wider"
+              >
+                Playable Demo Available for Android
+              </motion.span>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Distribution Section - Built-In Audience */}
+      <section id="distribution" className="relative py-24 md:py-32 bg-gradient-to-b from-[#0d2238]/90 to-[#0a1628]/90">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionTitle subtitle={t.distribution.subtitle} title={t.distribution.title} />
+
+          <div className="grid lg:grid-cols-2 gap-8 mt-12">
+            {/* Karate Combat */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative overflow-hidden border border-[rgba(0,212,255,0.2)] tech-corners"
+            >
+              {/* YouTube Background Video */}
+              <div className="absolute inset-0 z-0">
+                <iframe
+                  src="https://www.youtube.com/embed/P_gM47tVJVw?autoplay=1&mute=1&loop=1&playlist=P_gM47tVJVw&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] h-[300%] pointer-events-none"
+                  allow="autoplay; encrypted-media"
+                  frameBorder="0"
+                />
+                {/* Dark overlay for readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/85 via-[#0a1628]/75 to-[#0a1628]/90" />
+              </div>
+
+              <div className="relative z-10 p-8">
+                <h3 className="font-orbitron text-xl font-bold mb-2">Karate Combat</h3>
+                <p className="text-[#00d4ff] text-sm mb-6">
+                  Targeting the global combat-sports audience
+                </p>
+
+                <div className="grid grid-cols-3 gap-2 md:gap-4 mb-6">
+                  <StatCard value={1} suffix="B+" label="Impressions" delay={0} />
+                  <StatCard value={3} suffix="M+" label="Followers" delay={0.1} />
+                  <StatCard value={2} suffix="M" label="Views/Event" delay={0.2} />
+                </div>
+
+                <ul className="space-y-2 text-gray-400">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00d4ff]">▹</span>
+                    Elite global roster of 100+ fighters & influencers
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00d4ff]">▹</span>
+                    Individual fanbases of 100K-1M+
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
+
+            {/* Karate Do Legacy */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative overflow-hidden border border-[rgba(0,212,255,0.2)] tech-corners"
+            >
+              {/* YouTube Background Video */}
+              <div className="absolute inset-0 z-0">
+                <iframe
+                  src="https://www.youtube.com/embed/TPvRrflCu9s?autoplay=1&mute=1&loop=1&playlist=TPvRrflCu9s&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=550"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] h-[300%] pointer-events-none"
+                  allow="autoplay; encrypted-media"
+                  frameBorder="0"
+                />
+                {/* Dark overlay for readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/85 via-[#0a1628]/75 to-[#0a1628]/90" />
+              </div>
+
+              <div className="relative z-10 p-8">
+                <h3 className="font-orbitron text-xl font-bold mb-2">Karate Do Legacy Pipeline</h3>
+                <p className="text-[#00d4ff] text-sm mb-6">
+                  Targeting cult-like niche of WKF karate athletes
+                </p>
+
+                <div className="grid grid-cols-3 gap-2 md:gap-4 mb-6">
+                  <StatCard value={1.5} suffix="M+" label="Champion Followers" delay={0} />
+                  <StatCard value={1} suffix="M+" label="Downloads" delay={0.1} />
+                  <StatCard value={150} suffix="K+" label="Hardcore Community" delay={0.2} />
+                </div>
+
+                <ul className="space-y-2 text-gray-400">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00d4ff]">▹</span>
+                    20+ owned karate channels with 1M+ followers
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#00d4ff]">▹</span>
+                    Reaching 100M+ global karate athletes
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Merging Statement */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mt-12 text-center"
+          >
+            <div className="inline-flex items-center gap-4 md:gap-6">
+              <div className="h-px w-12 md:w-24 bg-gradient-to-r from-transparent to-[#00d4ff]" />
+              <h3 className="font-orbitron text-xl md:text-3xl font-black uppercase tracking-wider text-white glow-text">
+                {t.distribution.mergingWorlds}
+              </h3>
+              <div className="h-px w-12 md:w-24 bg-gradient-to-l from-transparent to-[#00d4ff]" />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-12 max-w-4xl mx-auto"
+          >
+            <div className="relative bg-gradient-to-r from-[rgba(0,212,255,0.1)] via-[rgba(0,212,255,0.05)] to-[rgba(0,212,255,0.1)] border border-[#00d4ff]/30 p-8 text-center overflow-hidden">
+              {/* Corner accents */}
+              <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#00d4ff]" />
+              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#00d4ff]" />
+              <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#00d4ff]" />
+              <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#00d4ff]" />
+
+              <p className="font-rajdhani text-xl md:text-2xl text-white leading-relaxed">
+                <span className="text-[#00d4ff] font-bold">Targeting natural believers:</span>{" "}
+                fighters at heart, gamers by habit.
+              </p>
+              <p className="font-orbitron text-2xl md:text-3xl font-bold mt-4">
+                We expect{" "}
+                <span className="text-[#66ff00] glow-text">2-3× higher conversions</span>{" "}
+                <span className="text-gray-400 font-normal text-lg md:text-xl">than generic audiences.</span>
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Problem/Solution Section */}
-      <section id="problem" className="relative py-24 md:py-32 bg-gradient-to-b from-[#0d2238] to-[#0a1628]">
+      <section id="problem" className="relative py-24 md:py-32 bg-gradient-to-b from-[#0d2238]/90 to-[#0a1628]/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle subtitle="The Opportunity" title="Problem & Solution" />
 
@@ -501,18 +736,103 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <blockquote className="border-l-4 border-[#00d4ff] pl-4 italic text-lg text-white/80">
-                &quot;To become the largest Karate entertainment IP since Karate Kid.&quot;
-              </blockquote>
+              <motion.blockquote
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="relative border-l-4 border-[#00d4ff] pl-6 py-4 mt-6"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-[#00d4ff]/10 to-transparent rounded-r-lg" />
+                <p className="relative font-orbitron text-xl md:text-2xl font-bold text-white glow-text">
+                  &quot;To become the largest Karate entertainment IP since Karate Kid.&quot;
+                </p>
+              </motion.blockquote>
             </motion.div>
           </div>
         </div>
       </section>
 
+      {/* Cinematic Trailer Section */}
+      <section className="relative py-16 md:py-24 bg-[#030810] overflow-hidden">
+        {/* Animated glow borders */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00d4ff]/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00d4ff]/50 to-transparent" />
+
+        {/* Side glow effects */}
+        <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-[#00d4ff]/5 to-transparent pointer-events-none" />
+        <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-[#00d4ff]/5 to-transparent pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Title */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <p className="font-rajdhani text-[#00d4ff] text-sm uppercase tracking-[0.5em] mb-3">
+              {language === 'ja' ? 'ビジョン' : 'The Vision'}
+            </p>
+            <h2
+              className="font-orbitron text-3xl md:text-5xl font-black uppercase tracking-wider text-white title-glow glitch cursor-pointer"
+              data-text={language === 'ja' ? 'ピットへ入れ' : 'Enter The Pit'}
+            >
+              {language === 'ja' ? 'ピットへ入れ' : 'Enter The Pit'}
+            </h2>
+          </motion.div>
+
+          {/* Video Container */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            {/* Glowing frame */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#00d4ff]/20 via-[#a855f7]/20 to-[#ff3366]/20 rounded-lg blur-sm" />
+            <div className="absolute -inset-px bg-gradient-to-r from-[#00d4ff]/40 via-[#a855f7]/40 to-[#ff3366]/40 rounded-lg" />
+
+            {/* Video wrapper */}
+            <div className="relative bg-[#030810] rounded-lg overflow-hidden">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/hDhL9bOYIKU?autoplay=1&mute=1&loop=1&playlist=hDhL9bOYIKU&controls=1&modestbranding=1&rel=0&showinfo=0&playsinline=1"
+                  className="w-full h-full"
+                  allow="autoplay; encrypted-media; fullscreen"
+                  frameBorder="0"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+
+            {/* Corner accents */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#00d4ff] rounded-tl-lg" />
+            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#ff3366] rounded-tr-lg" />
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#a855f7] rounded-bl-lg" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#00d4ff] rounded-br-lg" />
+          </motion.div>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className={`text-center mt-6 text-gray-400 text-sm md:text-base ${language === 'ja' ? 'font-noto-jp' : 'font-rajdhani'}`}
+          >
+            {language === 'ja'
+              ? 'アニメ風格闘ゲームユニバース — 実在の空手コンバット選手が登場'
+              : 'An anime-inspired fighting game universe — featuring real Karate Combat athletes'}
+          </motion.p>
+        </div>
+      </section>
+
       {/* Creative Value Section */}
-      <section id="creative" className="relative py-24 md:py-32 bg-[#0a1628]">
+      <section id="creative" className="relative py-24 md:py-32 bg-[#0a1628]/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle subtitle="Creative Value-Add" title="Transforming Athletes Into Heroes" />
+          <SectionTitle subtitle={t.creative.subtitle} title={t.creative.title} />
 
           <div className="grid lg:grid-cols-3 gap-8 mt-12 items-center">
             <motion.div
@@ -562,7 +882,7 @@ export default function Home() {
       </section>
 
       {/* Gameplay Section */}
-      <section id="gameplay" className="relative py-24 md:py-32 bg-gradient-to-b from-[#0a1628] to-[#0d2238]">
+      <section id="gameplay" className="relative py-24 md:py-32 bg-gradient-to-b from-[#0a1628]/90 to-[#0d2238]/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             subtitle="Core Gameplay Loop"
@@ -626,7 +946,7 @@ export default function Home() {
       </section>
 
       {/* Market Section */}
-      <section id="market" className="relative py-24 md:py-32 bg-[#0d2238]">
+      <section id="market" className="relative py-24 md:py-32 bg-[#0d2238]/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle subtitle="Market Overview" title="Why Gacha RPG?" />
 
@@ -707,102 +1027,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Distribution Section */}
-      <section id="distribution" className="relative py-24 md:py-32 bg-gradient-to-b from-[#0d2238] to-[#0a1628]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle subtitle="Distribution Plan" title="Built-In Audience" />
-
-          <div className="grid lg:grid-cols-2 gap-8 mt-12">
-            {/* Karate Combat */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-[#0a1628]/80 border border-[rgba(0,212,255,0.2)] p-8 tech-corners"
-            >
-              <h3 className="font-orbitron text-xl font-bold mb-2">Karate Combat</h3>
-              <p className="text-[#00d4ff] text-sm mb-6">
-                Targeting the global combat-sports audience
-              </p>
-
-              <div className="grid grid-cols-3 gap-2 md:gap-4 mb-6">
-                <StatCard value={1} suffix="B+" label="Impressions" delay={0} />
-                <StatCard value={3} suffix="M+" label="Followers" delay={0.1} />
-                <StatCard value={2} suffix="M" label="Views/Event" delay={0.2} />
-              </div>
-
-              <ul className="space-y-2 text-gray-400">
-                <li className="flex items-start gap-2">
-                  <span className="text-[#00d4ff]">▹</span>
-                  Elite global roster of 100+ fighters & influencers
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#00d4ff]">▹</span>
-                  Individual fanbases of 100K-1M+
-                </li>
-              </ul>
-            </motion.div>
-
-            {/* Karate Do Legacy */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-[#0a1628]/80 border border-[rgba(0,212,255,0.2)] p-8 tech-corners"
-            >
-              <h3 className="font-orbitron text-xl font-bold mb-2">Karate Do Legacy Pipeline</h3>
-              <p className="text-[#00d4ff] text-sm mb-6">
-                Targeting cult-like niche of WKF karate athletes
-              </p>
-
-              <div className="grid grid-cols-3 gap-2 md:gap-4 mb-6">
-                <StatCard value={1.5} suffix="M+" label="Champion Followers" delay={0} />
-                <StatCard value={1} suffix="M+" label="Downloads" delay={0.1} />
-                <StatCard value={150} suffix="K+" label="Hardcore Community" delay={0.2} />
-              </div>
-
-              <ul className="space-y-2 text-gray-400">
-                <li className="flex items-start gap-2">
-                  <span className="text-[#00d4ff]">▹</span>
-                  20+ owned karate channels with 1M+ followers
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#00d4ff]">▹</span>
-                  Reaching 100M+ global karate athletes
-                </li>
-              </ul>
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-12 max-w-4xl mx-auto"
-          >
-            <div className="relative bg-gradient-to-r from-[rgba(0,212,255,0.1)] via-[rgba(0,212,255,0.05)] to-[rgba(0,212,255,0.1)] border border-[#00d4ff]/30 p-8 text-center overflow-hidden">
-              {/* Corner accents */}
-              <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#00d4ff]" />
-              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#00d4ff]" />
-              <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#00d4ff]" />
-              <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#00d4ff]" />
-
-              <p className="font-rajdhani text-xl md:text-2xl text-white leading-relaxed">
-                <span className="text-[#00d4ff] font-bold">Targeting natural believers:</span>{" "}
-                fighters at heart, gamers by habit.
-              </p>
-              <p className="font-orbitron text-2xl md:text-3xl font-bold mt-4">
-                We expect{" "}
-                <span className="text-[#66ff00] glow-text">2-3× higher conversions</span>{" "}
-                <span className="text-gray-400 font-normal text-lg md:text-xl">than generic audiences.</span>
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Reach Section */}
-      <section id="reach" className="relative py-24 md:py-32 bg-[#0a1628]">
+      <section id="reach" className="relative py-24 md:py-32 bg-[#0a1628]/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle subtitle="Reach & Visibility" title="Year 1 Projections" />
 
@@ -826,7 +1052,7 @@ export default function Home() {
       </section>
 
       {/* Timeline Section */}
-      <section className="relative py-24 md:py-32 bg-gradient-to-b from-[#0a1628] via-[#0d2238] to-[#0a1628]">
+      <section className="relative py-24 md:py-32 bg-gradient-to-b from-[#0a1628]/90 via-[#0d2238]/90 to-[#0a1628]/90">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00d4ff]/30 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Timeline />
@@ -834,9 +1060,9 @@ export default function Home() {
       </section>
 
       {/* Sponsorship Section */}
-      <section id="sponsorship" className="relative py-24 md:py-32 bg-gradient-to-b from-[#0a1628] to-[#030810]">
+      <section id="sponsorship" className="relative py-24 md:py-32 bg-gradient-to-b from-[#0a1628]/90 to-[#030810]/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle subtitle="Sponsorship Opportunity" title="Full Game Campaign Partner" />
+          <SectionTitle subtitle={t.sponsorship.subtitle} title={t.sponsorship.title} />
 
           <div className="grid lg:grid-cols-5 gap-8 mt-12">
             {/* Benefits */}
@@ -920,95 +1146,95 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Demo Section */}
-      <section id="demo" className="relative py-24 md:py-32 bg-[#030810]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <SectionTitle subtitle="Game Demo" title="See It In Action" align="center" />
+      {/* CTA Section */}
+      <section className="relative py-24 md:py-32 bg-gradient-to-b from-[#030810]/90 via-[#0a1628]/90 to-[#030810]/90 overflow-hidden">
+        {/* Animated background glow */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-[600px] h-[600px] bg-[#00d4ff]/10 rounded-full blur-[150px] animate-pulse" />
+        </div>
 
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative mt-12"
+            className="text-center"
           >
-            <div className="relative p-1 bg-gradient-to-br from-[#00d4ff] to-[rgba(0,212,255,0.3)] video-glow">
-              <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#00d4ff] -translate-x-2 -translate-y-2" />
-              <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#00d4ff] translate-x-2 translate-y-2" />
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="font-rajdhani text-[#00d4ff] text-sm uppercase tracking-[0.3em] mb-4"
+            >
+              Limited Opportunity
+            </motion.p>
 
-              <video
-                controls
-                poster="/images/WhatsApp Image 2025-12-29 at 13.52.07.jpeg"
-                className="w-full bg-[#030810]"
-                onPlay={() => setVideoPlaying(true)}
-                onPause={() => setVideoPlaying(false)}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="font-orbitron text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6 title-glow glitch cursor-pointer"
+              data-text={t.cta.title}
+            >
+              {t.cta.title}
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className={`text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto ${language === 'ja' ? 'font-noto-jp' : 'font-exo2'}`}
+            >
+              {t.cta.subtitle}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="flex justify-center"
+            >
+              <motion.a
+                href="mailto:mijalkovic@miracledojo.com?subject=KC%20Legends%20of%20the%20Pit%20-%20Sponsorship%20Inquiry"
+                className={`px-10 py-5 bg-[#00d4ff] text-[#030810] font-bold text-lg uppercase tracking-wider btn-shine ${language === 'ja' ? 'font-noto-jp' : 'font-rajdhani'}`}
+                whileHover={{
+                  boxShadow: "0 0 50px rgba(0, 212, 255, 0.6)",
+                  scale: 1.05,
+                }}
+                whileTap={{ scale: 0.98 }}
               >
-                <source src="/gameplay-compressed.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
+                {t.cta.button}
+              </motion.a>
+            </motion.div>
           </motion.div>
-
-          <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="inline-block mt-8 px-6 py-2 bg-[#66ff00] text-[#030810] font-rajdhani font-bold uppercase tracking-wider"
-          >
-            Playable Demo Available for Android
-          </motion.span>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="relative py-24 md:py-32 bg-gradient-to-b from-[#030810] to-[#0a1628]">
+      <section id="contact" className="relative py-16 md:py-20 bg-gradient-to-b from-[#030810]/90 to-[#0a1628]/90">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-12">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="text-center md:text-left"
-            >
-              <h2 className="font-orbitron text-4xl md:text-5xl font-black text-white mb-4">
-                Thank You
-              </h2>
-              <p className="font-orbitron text-3xl text-[#00d4ff] mb-8">OSS!</p>
-
-              <motion.a
-                href="mailto:mijalkovic@miracledojo.com"
-                className="inline-block px-8 py-4 border border-[rgba(0,212,255,0.3)] text-[#00d4ff] font-exo2 text-lg transition-all duration-300 hover:bg-[rgba(0,212,255,0.1)] hover:border-[#00d4ff] hover:shadow-[0_0_30px_rgba(0,212,255,0.3)]"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                mijalkovic@miracledojo.com
-              </motion.a>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative w-64 md:w-80"
-            >
-              <div className="relative border-2 border-[rgba(0,212,255,0.3)] overflow-hidden tech-corners">
-                <Image
-                  src="/images/WhatsApp Image 2025-12-29 at 13.52.07 (1).jpeg"
-                  alt="KC Character"
-                  width={320}
-                  height={400}
-                  className="w-full"
-                />
-              </div>
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <h2 className="font-orbitron text-4xl md:text-5xl font-black text-white mb-4">
+              {t.contact.thankYou}
+            </h2>
+            <p className="font-orbitron text-3xl text-[#00d4ff]">{t.contact.oss}</p>
+          </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#030810] border-t border-[rgba(0,212,255,0.1)] py-8">
+      <footer className="bg-[#030810]/90 border-t border-[rgba(0,212,255,0.1)] py-8">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="font-rajdhani text-gray-500 text-sm">
-            © 2024 Miracle Dojo. KC: Legends of the Pit — Karate Combat
+          <p className={`text-gray-500 text-sm ${language === 'ja' ? 'font-noto-jp' : 'font-rajdhani'}`}>
+            {t.footer.copyright}
           </p>
         </div>
       </footer>

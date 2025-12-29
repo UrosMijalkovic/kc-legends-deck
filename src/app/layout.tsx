@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Exo_2, Rajdhani } from "next/font/google";
+import { Exo_2, Rajdhani, Noto_Sans_JP } from "next/font/google";
+import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 
 const exo2 = Exo_2({
@@ -10,6 +11,12 @@ const exo2 = Exo_2({
 
 const rajdhani = Rajdhani({
   variable: "--font-rajdhani",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const notoSansJP = Noto_Sans_JP({
+  variable: "--font-noto-jp",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
@@ -37,8 +44,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
-      <body className={`${exo2.variable} ${rajdhani.variable} antialiased noise-bg`}>
-        {children}
+      <body className={`${exo2.variable} ${rajdhani.variable} ${notoSansJP.variable} antialiased noise-bg`}>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

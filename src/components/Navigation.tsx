@@ -4,21 +4,23 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-
-const navItems = [
-  { href: "#hero", label: "Home" },
-  { href: "#origin", label: "Story" },
-  { href: "#status", label: "Status" },
-  { href: "#market", label: "Market" },
-  { href: "#sponsorship", label: "Opportunity" },
-  { href: "#demo", label: "Demo" },
-  { href: "#contact", label: "Contact" },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Navigation() {
+  const { language, setLanguage, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+
+  const navItems = [
+    { href: "#hero", label: t.nav.home },
+    { href: "#origin", label: t.nav.story },
+    { href: "#status", label: t.nav.status },
+    { href: "#market", label: t.nav.market },
+    { href: "#sponsorship", label: t.nav.opportunity },
+    { href: "#distribution", label: t.nav.demo },
+    { href: "#contact", label: t.nav.contact },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +42,11 @@ export function Navigation() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [navItems]);
+
+  const toggleLanguage = () => {
+    setLanguage(language === "en" ? "ja" : "en");
+  };
 
   return (
     <>
@@ -65,9 +71,9 @@ export function Navigation() {
                 <Image
                   src="/Logo.png"
                   alt="KC: Legends of the Pit"
-                  width={160}
-                  height={40}
-                  className="h-8 md:h-10 w-auto object-contain"
+                  width={208}
+                  height={52}
+                  className="h-10 md:h-[52px] w-auto object-contain"
                   priority
                 />
               </motion.div>
@@ -98,37 +104,60 @@ export function Navigation() {
               ))}
             </ul>
 
-            {/* CTA Button */}
-            <motion.a
-              href="#sponsorship"
-              className="hidden md:block px-6 py-2 border border-[#00d4ff] text-[#00d4ff] font-rajdhani font-bold text-sm uppercase tracking-wider btn-shine"
-              whileHover={{
-                backgroundColor: "rgba(0, 212, 255, 0.1)",
-                boxShadow: "0 0 20px rgba(0, 212, 255, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Partner With Us
-            </motion.a>
+            <div className="hidden md:flex items-center gap-4">
+              {/* Language Toggle */}
+              <motion.button
+                onClick={toggleLanguage}
+                className="px-3 py-1.5 border border-[rgba(0,212,255,0.3)] text-[#00d4ff] font-rajdhani font-bold text-sm uppercase tracking-wider hover:bg-[rgba(0,212,255,0.1)] hover:border-[#00d4ff] transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {language === "en" ? "日本語" : "EN"}
+              </motion.button>
+
+              {/* CTA Button */}
+              <motion.a
+                href="#sponsorship"
+                className="px-6 py-2 border border-[#00d4ff] text-[#00d4ff] font-rajdhani font-bold text-sm uppercase tracking-wider btn-shine"
+                whileHover={{
+                  backgroundColor: "rgba(0, 212, 255, 0.1)",
+                  boxShadow: "0 0 20px rgba(0, 212, 255, 0.3)",
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {t.nav.partnerWithUs}
+              </motion.a>
+            </div>
 
             {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden flex flex-col gap-1.5 p-2"
-            >
-              <motion.span
-                animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 8 : 0 }}
-                className="w-6 h-0.5 bg-[#00d4ff]"
-              />
-              <motion.span
-                animate={{ opacity: mobileOpen ? 0 : 1 }}
-                className="w-6 h-0.5 bg-[#00d4ff]"
-              />
-              <motion.span
-                animate={{ rotate: mobileOpen ? -45 : 0, y: mobileOpen ? -8 : 0 }}
-                className="w-6 h-0.5 bg-[#00d4ff]"
-              />
-            </button>
+            <div className="md:hidden flex items-center gap-3">
+              {/* Mobile Language Toggle */}
+              <motion.button
+                onClick={toggleLanguage}
+                className="px-2 py-1 border border-[rgba(0,212,255,0.3)] text-[#00d4ff] font-rajdhani font-bold text-xs uppercase"
+                whileTap={{ scale: 0.95 }}
+              >
+                {language === "en" ? "日本語" : "EN"}
+              </motion.button>
+
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="flex flex-col gap-1.5 p-2"
+              >
+                <motion.span
+                  animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 8 : 0 }}
+                  className="w-6 h-0.5 bg-[#00d4ff]"
+                />
+                <motion.span
+                  animate={{ opacity: mobileOpen ? 0 : 1 }}
+                  className="w-6 h-0.5 bg-[#00d4ff]"
+                />
+                <motion.span
+                  animate={{ rotate: mobileOpen ? -45 : 0, y: mobileOpen ? -8 : 0 }}
+                  className="w-6 h-0.5 bg-[#00d4ff]"
+                />
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -173,7 +202,7 @@ export function Navigation() {
                   onClick={() => setMobileOpen(false)}
                   className="block py-3 mt-4 text-center border border-[#00d4ff] text-[#00d4ff] font-rajdhani font-bold uppercase tracking-wider"
                 >
-                  Partner With Us
+                  {t.nav.partnerWithUs}
                 </a>
               </motion.li>
             </ul>

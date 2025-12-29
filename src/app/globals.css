@@ -68,6 +68,10 @@
     font-family: var(--font-rajdhani), system-ui, sans-serif;
   }
 
+  .font-noto-jp {
+    font-family: var(--font-noto-jp), 'Noto Sans JP', sans-serif;
+  }
+
   /* Glow text */
   .glow-text {
     text-shadow: 0 0 10px #00d4ff, 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.3);
@@ -84,6 +88,20 @@
   /* Title glow animation */
   .title-glow {
     animation: title-glow 4s ease-in-out infinite;
+  }
+
+  /* Colored glow animations */
+  .glow-cyan {
+    animation: glow-cyan 3s ease-in-out infinite;
+  }
+  .glow-green {
+    animation: glow-green 3s ease-in-out infinite;
+  }
+  .glow-yellow {
+    animation: glow-yellow 3s ease-in-out infinite;
+  }
+  .glow-red {
+    animation: glow-red 3s ease-in-out infinite;
   }
 
   /* Energy border animation */
@@ -122,6 +140,15 @@
   }
 
   .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  /* Slower scroll animation for community gallery */
+  .animate-scroll-slow {
+    animation: scroll 60s linear infinite;
+  }
+
+  .animate-scroll-slow:hover {
     animation-play-state: paused;
   }
 }
@@ -283,6 +310,42 @@
       0 0 40px rgba(0, 212, 255, 0.8),
       0 0 80px rgba(0, 212, 255, 0.5),
       0 0 120px rgba(0, 212, 255, 0.3);
+  }
+}
+
+@keyframes glow-cyan {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 40px rgba(0, 212, 255, 0.5), 0 0 60px rgba(0, 212, 255, 0.3);
+  }
+}
+
+@keyframes glow-green {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(102, 255, 0, 0.5), 0 0 20px rgba(102, 255, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(102, 255, 0, 0.8), 0 0 40px rgba(102, 255, 0, 0.5), 0 0 60px rgba(102, 255, 0, 0.3);
+  }
+}
+
+@keyframes glow-yellow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5), 0 0 20px rgba(255, 204, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 204, 0, 0.8), 0 0 40px rgba(255, 204, 0, 0.5), 0 0 60px rgba(255, 204, 0, 0.3);
+  }
+}
+
+@keyframes glow-red {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 51, 102, 0.5), 0 0 20px rgba(255, 51, 102, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 51, 102, 0.8), 0 0 40px rgba(255, 51, 102, 0.5), 0 0 60px rgba(255, 51, 102, 0.3);
   }
 }
 
