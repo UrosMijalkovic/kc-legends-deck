@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 const navItems = [
   { href: "#hero", label: "Home" },
@@ -57,13 +58,19 @@ export function Navigation() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="#hero" className="flex items-center gap-2">
-              <motion.span
-                className="font-orbitron font-bold text-lg text-[#00d4ff] tracking-wider glitch"
-                data-text="KC: LEGENDS"
+              <motion.div
                 whileHover={{ scale: 1.05 }}
+                className="relative"
               >
-                KC: LEGENDS
-              </motion.span>
+                <Image
+                  src="/Logo.png"
+                  alt="KC: Legends of the Pit"
+                  width={160}
+                  height={40}
+                  className="h-8 md:h-10 w-auto object-contain"
+                  priority
+                />
+              </motion.div>
             </Link>
 
             {/* Desktop Nav */}

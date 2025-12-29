@@ -322,6 +322,48 @@ export default function Home() {
               <StatCard value={0} suffix="" prefix="$" label="Marketing Budget" highlight delay={0.3} staticValue="$0" />
             </div>
           </div>
+
+          {/* Previous Game Success Gallery */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16"
+          >
+            <div className="text-center mb-8">
+              <p className="font-rajdhani text-[#00d4ff] text-sm uppercase tracking-[0.3em] mb-2">
+                Karate Do Legacy
+              </p>
+              <h3 className="font-orbitron text-xl md:text-2xl font-bold text-white">
+                Proven Track Record
+              </h3>
+            </div>
+
+            {/* Scrolling Gallery */}
+            <div className="relative overflow-hidden">
+              <div className="flex gap-4 animate-scroll">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5].map((num, index) => (
+                  <motion.div
+                    key={`kd-${index}`}
+                    className="flex-shrink-0 relative w-64 md:w-80 aspect-[16/9] border border-[#00d4ff]/20 overflow-hidden group"
+                    whileHover={{ scale: 1.02, borderColor: "rgba(0,212,255,0.5)" }}
+                  >
+                    <Image
+                      src={`/kd-old/${num > 10 ? num - 10 : num}.png`}
+                      alt={`Karate Do Screenshot ${num}`}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#030810]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            <p className="text-center text-gray-400 mt-6 text-sm">
+              Screenshots from Karate Do — 1M+ downloads, #1 in Sports category
+            </p>
+          </motion.div>
         </div>
       </section>
 
